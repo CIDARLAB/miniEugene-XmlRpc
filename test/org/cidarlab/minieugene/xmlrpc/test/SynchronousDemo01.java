@@ -5,6 +5,14 @@ import java.net.URL;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
+/**
+ * Here we demonstrate how to invoke the miniEugene XML-RPC Web service 
+ * using the Apache XML-RPC library. 
+ * 
+ * We invoke the miniEugene in a synchronous way.
+ * 
+ * @author Ernst Oberortner
+ */
 public class SynchronousDemo01 {
 
 	private XmlRpcClientConfigImpl config;
@@ -12,15 +20,20 @@ public class SynchronousDemo01 {
 	public SynchronousDemo01() 
 		throws Exception {
 
-        // send the string to the EugeneWS
         this.config = new XmlRpcClientConfigImpl();
 
+        /*
+         * that's the URL of the miniEugene XML-RPC Web service
+         */
         this.config.setServerURL(new URL("http://cidar.bu.edu:8080/miniEugene-XmlRpc/xmlrpc"));
 	}
 	
 	public void test() 
 			throws Exception {
 		
+		/*
+		 * String[] array of design-specific rules
+		 */
 		String[] rules = {
 				"CONTAINS a", "CONTAINS b", "CONTAINS c", 
 				"CONTAINS d", "CONTAINS e", "CONTAINS f", 
@@ -33,10 +46,9 @@ public class SynchronousDemo01 {
 
 		XmlRpcClient client = new XmlRpcClient(); 
         client.setConfig(config);
-
         
         /*
-         * SYNCHRONOUS
+         * SYNCHRONOUS Web Service Invocation
          */
         this.synchronousCall(client, rules);
 	}
@@ -48,13 +60,27 @@ public class SynchronousDemo01 {
 	 */
 	private void synchronousCall(XmlRpcClient client, String[] rules) {
 		try {
+			/*
+			 * here, we invoke the solve/3 method of 
+			 * the miniEugene XML-RPC Web service
+			 * 
+			 * the max. length of the design should be 12 
+			 * and we request 100 solutions.
+			 */
 	        Object solutions = client.execute(
 	        		"MiniEugeneXmlRpc.solve", 
-	        		new Object[]{rules, 12, -1});
+	        		new Object[]{rules, 12, 100});
+	        
 	        
 	        if(null != solutions) {
+	        	/*
+	        	 * finally, we process the solutions
+	        	 * 
+	        	 * just System.out.println
+	        	 */
 		        this.processSolutions(solutions);
 	        }
+	        
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
