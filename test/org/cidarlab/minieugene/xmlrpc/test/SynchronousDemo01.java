@@ -69,7 +69,7 @@ public class SynchronousDemo01 {
 			 */
 	        Object solutions = client.execute(
 	        		"MiniEugeneXmlRpc.solve", 
-	        		new Object[]{rules, 12, 100});
+	        		new Object[]{rules, 12, 1});
 	        
 	        
 	        if(null != solutions) {
