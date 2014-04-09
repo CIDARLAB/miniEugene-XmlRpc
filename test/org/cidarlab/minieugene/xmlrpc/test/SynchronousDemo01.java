@@ -58,34 +58,34 @@ public class SynchronousDemo01 {
 	 * @param client
 	 * @param rules
 	 */
-	private void synchronousCall(XmlRpcClient client, String[] rules) {
-		try {
-			/*
-			 * here, we invoke the solve/3 method of 
-			 * the miniEugene XML-RPC Web service
-			 * 
-			 * the max. length of the design should be 12 
-			 * and we request 100 solutions.
-			 */
-	        Object solutions = client.execute(
-	        		"MiniEugeneXmlRpc.solve", 
-	        		new Object[]{rules, 12, 1});
-	        
-	        
-	        if(null != solutions) {
-	        	/*
-	        	 * finally, we process the solutions
-	        	 * 
-	        	 * just System.out.println
-	        	 */
-		        this.processSolutions(solutions);
-	        }
-	        
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	private void synchronousCall(XmlRpcClient client, String[] rules) 
+			throws Exception {
+		
+		/*
+		 * here, we invoke the solve/3 method of 
+		 * the miniEugene XML-RPC Web service
+		 * 
+		 * the max. length of the design should be 12 
+		 * and we request 100 solutions.
+		 */
+        Object solutions = client.execute(
+        		"MiniEugeneXmlRpc.solve", 
+        		new Object[]{rules, 12, 100});
+        
+        
+        if(null != solutions) {
+        	/*
+        	 * if there are solutions,
+        	 * then we process them
+        	 */
+	        this.processSolutions(solutions);
+        }
 	}
 	
+	/**
+	 * 
+	 * @param solutions
+	 */
 	private void processSolutions(Object solutions) {
     	Object[] sols = (Object[])solutions;
     	System.out.println("# of solutions: "+sols.length);
@@ -103,6 +103,7 @@ public class SynchronousDemo01 {
 	}
 
 	/**
+	 * MAIN
 	 * 
 	 * @param args
 	 */
