@@ -65,7 +65,7 @@ public class SynchronousDemo01 {
 		 * here, we invoke the solve/3 method of 
 		 * the miniEugene XML-RPC Web service
 		 * 
-		 * the max. length of the design should be 12 
+		 * the length of the design should be 12 
 		 * and we request 100 solutions.
 		 */
         Object solutions = client.execute(
