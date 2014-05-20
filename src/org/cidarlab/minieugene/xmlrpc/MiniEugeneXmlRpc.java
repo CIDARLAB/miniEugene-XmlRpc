@@ -8,6 +8,8 @@ import org.cidarlab.minieugene.dom.Component;
 
 public class MiniEugeneXmlRpc {
 
+	private static final int MAX_NR_OF_SOLUTIONS = 50000;
+	
 	/**
 	 * The solve/3 method takes as input a set of rules, the max. length of the desired 
 	 * design, and the number of desired solutions.
@@ -40,11 +42,14 @@ public class MiniEugeneXmlRpc {
 					constraints[i] = new String(rules[i].toString());
 				}
 
-				
 				/*
 				 * solve the problem
 				 */
-				me.solve(constraints, N.intValue(), NR_OF_SOLUTIONS.intValue());
+				if(NR_OF_SOLUTIONS > MAX_NR_OF_SOLUTIONS) {
+					me.solve(constraints, N.intValue(), MAX_NR_OF_SOLUTIONS);
+				} else {
+					me.solve(constraints, N.intValue(), NR_OF_SOLUTIONS.intValue());
+				}
 			} catch(Exception e) {
 				throw new Exception(e.getMessage());
 			}
@@ -94,7 +99,7 @@ public class MiniEugeneXmlRpc {
 				/*
 				 * solve the problem
 				 */
-				me.solve(constraints, N.intValue());
+				me.solve(constraints, N.intValue(), MAX_NR_OF_SOLUTIONS);
 			} catch(Exception e) {
 				throw new Exception(e.getMessage());
 			}
@@ -132,15 +137,15 @@ public class MiniEugeneXmlRpc {
 				/*
 				 * execute the script
 				 */
-				me.solve(script);
+				me.solve(script, MAX_NR_OF_SOLUTIONS);
 			} catch(Exception e) {
 				throw new Exception(e.getMessage());
 			}
 			
 			String[][] result = this.toStringMatrix(me.getSolutions());
-			for(int i=0; i<result.length; i++) {
-				System.out.println(Arrays.toString(result[i]));
-			}
+//			for(int i=0; i<result.length; i++) {
+//				System.out.println(Arrays.toString(result[i]));
+//			}
 			return result;
 		}
 		return null;
