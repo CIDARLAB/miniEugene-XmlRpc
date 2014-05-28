@@ -1,6 +1,5 @@
 package org.cidarlab.minieugene.xmlrpc;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.cidarlab.minieugene.MiniEugene;
