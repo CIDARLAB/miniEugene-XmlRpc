@@ -41,32 +41,48 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
  * Here we demonstrate how to invoke the miniEugene XML-RPC Web service 
  * using the Apache XML-RPC library. 
  * 
- * We invoke the miniEugene in a synchronous way.
+ * We invoke the miniEugene in a synchronous way. Hence, this process 
+ * is blocked until the XML-RPC web service responds.
  * 
  * @author Ernst Oberortner
  */
 public class SynchronousDemo01 {
 
+    // The XML-RPC client
+	private XmlRpcClient client;
+
+	// The configuration of the XML-RPC client
 	private XmlRpcClientConfigImpl config;
+	
 	
 	public SynchronousDemo01() 
 		throws Exception {
 
+		/*
+		 * we instantiate a configuration for the XML-RPC client
+		 */
         this.config = new XmlRpcClientConfigImpl();
 
         /*
-         * that's the URL of the miniEugene XML-RPC Web service
+         * we configure the URL of the miniEugene XML-RPC Web service
          */
         this.config.setServerURL(new URL("http://cidar.bu.edu/miniEugene-XmlRpc/xmlrpc"));
+        
+		/*
+		 * then we instantiate the XML-RPC Client
+		 * and configure it 
+		 */
+		this.client = new XmlRpcClient(); 
+        this.client.setConfig(config);
 	}
 	
-	public void test() 
+	public void invokeMiniEugeneXMLRPC() 
 			throws Exception {
 		
 		/*
 		 * String[] array of design-specific rules
 		 */
-		String[] rules = {
+		String[] constraints = {
 				"CONTAINS a", "CONTAINS b", "CONTAINS c", 
 				"CONTAINS d", "CONTAINS e", "CONTAINS f", 
 				"CONTAINS g", "CONTAINS h", "CONTAINS i",
@@ -76,21 +92,20 @@ public class SynchronousDemo01 {
 				"g BEFORE h", "h BEFORE i", "i BEFORE j",
 				"j BEFORE k", "k BEFORE l"};
 
-		XmlRpcClient client = new XmlRpcClient(); 
-        client.setConfig(config);
-        
         /*
          * SYNCHRONOUS Web Service Invocation
          */
-        this.synchronousCall(client, rules);
+        this.synchronousCall(constraints);
 	}
 	
 	/**
+	 * The synchronousCall method invokes the miniEugene XML-RPC 
+	 * web service in a synchronous way. That is, we the client 
+	 * is blocked until the web service response. 
 	 * 
-	 * @param client
-	 * @param rules
+	 * @param rules  ... a set of miniEugene constraints
 	 */
-	private void synchronousCall(XmlRpcClient client, String[] rules) 
+	private void synchronousCall(String[] constraints) 
 			throws Exception {
 		
 		/*
@@ -102,7 +117,7 @@ public class SynchronousDemo01 {
 		 */
         Object solutions = client.execute(
         		"MiniEugeneXmlRpc.solve", 
-        		new Object[]{rules, 12, 100});
+        		new Object[]{constraints, 12, 100});
         
         
         if(null != solutions) {
@@ -115,19 +130,27 @@ public class SynchronousDemo01 {
 	}
 	
 	/**
+	 * The processSolutions/1 method takes as input a 
+	 * set of miniEugene solutions (represented as Java object) and 
+	 * processes them by printing them to the console (using System.out).
 	 * 
-	 * @param solutions
+	 * @param solutions   ... a set of solutions
 	 */
 	private void processSolutions(Object solutions) {
-    	Object[] sols = (Object[])solutions;
-    	System.out.println("# of solutions: "+sols.length);
     	
-    	// we just print the solutions to the console
+		Object[] sols = (Object[])solutions;
+    	
+		System.out.println("# of solutions: "+sols.length);
+    	
+    	// we iterate over the solutions 
     	for(int i=0; i<sols.length; i++) {
     		Object[] solution = (Object[])sols[i];
-    		
+
+    		// and print every solution
     		for(int j=0; j<solution.length; j++) {
-    			System.out.print(solution[j]+", ");
+    			System.out.print(solution[j]);
+    			if(j < solution.length - 1)
+    				System.out.print(", ");
     		}
     		
     		System.out.println();
@@ -135,13 +158,13 @@ public class SynchronousDemo01 {
 	}
 
 	/**
-	 * MAIN
+	 * The main() method
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
-			new SynchronousDemo01().test();
+			new SynchronousDemo01().invokeMiniEugeneXMLRPC();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
