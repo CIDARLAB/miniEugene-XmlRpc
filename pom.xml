@@ -38,11 +38,12 @@
 				<version>2.3</version>
 				<configuration>
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
-					<warName>miniEugene-XmlRpc</warName>
+					<warName>miniEugeneXmlRpc</warName>
 					<failOnMissingWebXml>true</failOnMissingWebXml>
 				</configuration>
 			</plugin>
 			
+			<!--  
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -53,7 +54,7 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
-			
+			-->
 		</plugins>
 	</build>
   
