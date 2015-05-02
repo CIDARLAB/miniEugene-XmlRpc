@@ -83,17 +83,24 @@
 			<version>3.1.3</version>
 		</dependency>
 
-		<!-- miniEugene-core dependency
+		<!-- miniEugene-core dependency -->
 		<dependency>
 			<groupId>org.cidarlab</groupId>
 			<artifactId>miniEugene-core</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		 -->
+		
 		<dependency>
 			<groupId>org</groupId>
 			<artifactId>jacop</artifactId>
 			<version>4.1.0</version>
+		</dependency>
+
+		<!--  JUNit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
 		</dependency>
 
 	</dependencies>  
