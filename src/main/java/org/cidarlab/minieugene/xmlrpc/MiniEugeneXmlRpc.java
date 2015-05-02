@@ -114,34 +114,36 @@ public class MiniEugeneXmlRpc {
 	 */
 	public String[][] solve(Object[] rules, Integer N) 
 			throws Exception {
-
-		if(null != rules) {
-			MiniEugene me = new MiniEugene();				
-			try {
-				/*
-				 * convert the Object[] to a String[]
-				 */
-				String[] constraints = new String[rules.length];
-				for(int i=0; i<rules.length; i++) {
-					constraints[i] = new String(rules[i].toString());
-				}
-
-				
-				/*
-				 * solve the problem
-				 */
-				me.solve(constraints, N.intValue(), MAX_NR_OF_SOLUTIONS);
-			} catch(Exception e) {
-				throw new Exception(e.getMessage());
-			}
-			
-			/*
-			 * return the solutions as a String[][]
-			 */
-			return this.toStringMatrix(me.getSolutions());
-		}
 		
-		return null;
+		return solve(rules, N, MAX_NR_OF_SOLUTIONS);
+
+//		if(null != rules) {
+//			MiniEugene me = new MiniEugene();				
+//			try {
+//				/*
+//				 * convert the Object[] to a String[]
+//				 */
+//				String[] constraints = new String[rules.length];
+//				for(int i=0; i<rules.length; i++) {
+//					constraints[i] = new String(rules[i].toString());
+//				}
+//
+//				
+//				/*
+//				 * solve the problem
+//				 */
+//				me.solve(constraints, N.intValue(), MAX_NR_OF_SOLUTIONS);
+//			} catch(Exception e) {
+//				throw new Exception(e.getMessage());
+//			}
+//			
+//			/*
+//			 * return the solutions as a String[][]
+//			 */
+//			return this.toStringMatrix(me.getSolutions());
+//		}
+//		
+//		return null;
 	}
 
 	/**
