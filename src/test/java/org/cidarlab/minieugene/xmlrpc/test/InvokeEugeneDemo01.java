@@ -32,10 +32,12 @@
 
 package org.cidarlab.minieugene.xmlrpc.test;
 
+import java.io.File;
 import java.net.URL;
 
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.cidarlab.eugene.util.FileUtils;
 
 /**
  * Here we demonstrate how to invoke the miniEugene XML-RPC Web service 
@@ -46,7 +48,7 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
  * 
  * @author Ernst Oberortner
  */
-public class SynchronousDemo01 {
+public class InvokeEugeneDemo01 {
 
     // The XML-RPC client
 	private XmlRpcClient client;
@@ -55,7 +57,7 @@ public class SynchronousDemo01 {
 	private XmlRpcClientConfigImpl config;
 	
 	
-	public SynchronousDemo01() 
+	public InvokeEugeneDemo01() 
 		throws Exception {
 
 		/*
@@ -66,9 +68,14 @@ public class SynchronousDemo01 {
         /*
          * we configure the URL of the miniEugene XML-RPC Web service
          */
-//        this.config.setServerURL(new URL("http://cidar.bu.edu/miniEugeneXmlRpc/xmlrpc"));
         this.config.setServerURL(new URL("http://localhost:8080/xmlrpc"));
-        
+
+        /*
+         * we enable extensions
+         */
+        this.config.setEnabledForExtensions(true);
+        this.config.setEnabledForExceptions(true);
+
 		/*
 		 * then we instantiate the XML-RPC Client
 		 * and configure it 
@@ -80,23 +87,14 @@ public class SynchronousDemo01 {
 	public void invokeMiniEugeneXMLRPC() 
 			throws Exception {
 		
-		/*
-		 * String[] array of design-specific rules
-		 */
-		String[] constraints = {
-				"CONTAINS a", "CONTAINS b", "CONTAINS c", 
-				"CONTAINS d", "CONTAINS e", "CONTAINS f", 
-				"CONTAINS g", "CONTAINS h", "CONTAINS i",
-				"CONTAINS j", "CONTAINS k", "CONTAINS l", 
-				"a BEFORE b", "b BEFORE c", "c BEFORE d",
-				"d BEFORE e", "e BEFORE f", "f BEFORE g",
-				"g BEFORE h", "h BEFORE i", "i BEFORE j",
-				"j BEFORE k", "k BEFORE l"};
-
+		// read the script from a file
+		String script = 
+				FileUtils.readFile(new File("./data/design01.eug"));
+		
         /*
          * SYNCHRONOUS Web Service Invocation
          */
-        this.synchronousCall(constraints);
+        this.synchronousCall(script);
 	}
 	
 	/**
@@ -106,57 +104,60 @@ public class SynchronousDemo01 {
 	 * 
 	 * @param rules  ... a set of miniEugene constraints
 	 */
-	private void synchronousCall(String[] constraints) 
+	private void synchronousCall(String script) 
 			throws Exception {
 		
 		/*
-		 * here, we invoke the solve/3 method of 
+		 * here, we invoke the executeEugene/1 method of 
 		 * the miniEugene XML-RPC Web service
-		 * 
-		 * the length of the design should be 12 
-		 * and we request 100 solutions.
 		 */
+		
         Object solutions = client.execute(
-        		"MiniEugeneXmlRpc.solve", 
-        		new Object[]{constraints, 12, 100});
-        
-        
+        		"MiniEugeneXmlRpc.execute", 
+        		new Object[]{script});
+
         if(null != solutions) {
-        	/*
-        	 * if there are solutions,
-        	 * then we process them
-        	 */
-	        this.processSolutions(solutions);
+
+        	Object[] objects = (Object[])solutions;
+        	System.out.println(objects.getClass());
+        	
+        	for(Object object : objects) {
+        		
+        		System.out.println("---------------");
+        		System.out.println(object);
+        		
+        	}
         }
+
 	}
 	
-	/**
-	 * The processSolutions/1 method takes as input a 
-	 * set of miniEugene solutions (represented as Java object) and 
-	 * processes them by printing them to the console (using System.out).
-	 * 
-	 * @param solutions   ... a set of solutions
-	 */
-	private void processSolutions(Object solutions) {
-    	
-		Object[] sols = (Object[])solutions;
-    	
-		System.out.println("# of solutions: "+sols.length);
-    	
-    	// we iterate over the solutions 
-    	for(int i=0; i<sols.length; i++) {
-    		Object[] solution = (Object[])sols[i];
-
-    		// and print every solution
-    		for(int j=0; j<solution.length; j++) {
-    			System.out.print(solution[j]);
-    			if(j < solution.length - 1)
-    				System.out.print(", ");
-    		}
-    		
-    		System.out.println();
-    	}
-	}
+//	/**
+//	 * The processSolutions/1 method takes as input a 
+//	 * set of miniEugene solutions (represented as Java object) and 
+//	 * processes them by printing them to the console (using System.out).
+//	 * 
+//	 * @param solutions   ... a set of solutions
+//	 */
+//	private void processSolutions(Object solutions) {
+//    	
+//		Object[] sols = (Object[])solutions;
+//    	
+//		System.out.println("# of solutions: "+sols.length);
+//    	
+//    	// we iterate over the solutions 
+//    	for(int i=0; i<sols.length; i++) {
+//    		Object[] solution = (Object[])sols[i];
+//
+//    		// and print every solution
+//    		for(int j=0; j<solution.length; j++) {
+//    			System.out.print(solution[j]);
+//    			if(j < solution.length - 1)
+//    				System.out.print(", ");
+//    		}
+//    		
+//    		System.out.println();
+//    	}
+//	}
 
 	/**
 	 * The main() method
@@ -165,7 +166,7 @@ public class SynchronousDemo01 {
 	 */
 	public static void main(String[] args) {
 		try {
-			new SynchronousDemo01().invokeMiniEugeneXMLRPC();
+			new InvokeEugeneDemo01().invokeMiniEugeneXMLRPC();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

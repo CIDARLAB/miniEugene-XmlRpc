@@ -32,8 +32,13 @@
 
 package org.cidarlab.minieugene.xmlrpc;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.cidarlab.eugene.Eugene;
+import org.cidarlab.eugene.dom.NamedElement;
+import org.cidarlab.eugene.dom.imp.container.EugeneCollection;
+import org.cidarlab.eugene.dom.rules.Rule;
 import org.cidarlab.minieugene.MiniEugene;
 import org.cidarlab.minieugene.dom.Component;
 
@@ -182,6 +187,34 @@ public class MiniEugeneXmlRpc {
 			return result;
 		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param eugeneScript
+	 * @return
+	 * @throws Exception
+	 */
+	public Object execute(String eugeneScript) 
+			throws Exception {
+		
+		try {
+			
+			EugeneCollection results = 
+					new Eugene().executeScript(eugeneScript);
+			
+			List<Object> collections = 
+					new ArrayList<Object>();
+			for(NamedElement element : results.getElements()) {
+				if(!(element instanceof Rule)) {
+					collections.add(element);
+				}
+			}
+			
+			return collections.toArray();
+		} catch(Exception e) {
+			throw new Exception(e.getLocalizedMessage());
+		}
 	}
 	
 
