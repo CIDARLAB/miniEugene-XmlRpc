@@ -38,7 +38,6 @@ import java.util.List;
 import org.cidarlab.eugene.Eugene;
 import org.cidarlab.eugene.dom.NamedElement;
 import org.cidarlab.eugene.dom.imp.container.EugeneCollection;
-import org.cidarlab.eugene.dom.rules.Rule;
 import org.cidarlab.minieugene.MiniEugene;
 import org.cidarlab.minieugene.dom.Component;
 
@@ -206,9 +205,7 @@ public class MiniEugeneXmlRpc {
 			List<Object> collections = 
 					new ArrayList<Object>();
 			for(NamedElement element : results.getElements()) {
-				if(!(element instanceof Rule)) {
-					collections.add(element);
-				}
+				collections.add(element);
 			}
 			
 			return collections.toArray();
