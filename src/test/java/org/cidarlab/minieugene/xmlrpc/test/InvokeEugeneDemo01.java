@@ -70,8 +70,7 @@ public class InvokeEugeneDemo01 {
         /*
          * we configure the URL of the miniEugene XML-RPC Web service
          */
-        this.config.setServerURL(new URL("http://localhost:8080/xmlrpc"));
-//        this.config.setServerURL(new URL("http://cidar.bu.edu/miniEugeneXmlRpc/xmlrpc"));
+        this.config.setServerURL(new URL("http://cidar.bu.edu/miniEugeneXmlRpc/xmlrpc"));
 
         /*
          * we enable extensions
@@ -119,14 +118,17 @@ public class InvokeEugeneDemo01 {
         		new Object[]{script});
 
         if(null != object) {
-        	
+
+        	// the received object, is actually a EugeneCollection object
         	if(object instanceof EugeneCollection) {
+        		
         		EugeneCollection results = 
         				(EugeneCollection)object;
         		
         		EugeneArray result = 
         				(EugeneArray)results.get("result");
         		
+        		// process the result array
         		System.out.println(result.size());
         		
         	}
