@@ -37,6 +37,9 @@ import java.net.URL;
 
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.cidarlab.eugene.dom.NamedElement;
+import org.cidarlab.eugene.dom.imp.container.EugeneArray;
+import org.cidarlab.eugene.dom.imp.container.EugeneCollection;
 import org.cidarlab.eugene.util.FileUtils;
 
 /**
@@ -69,6 +72,7 @@ public class InvokeEugeneDemo01 {
          * we configure the URL of the miniEugene XML-RPC Web service
          */
         this.config.setServerURL(new URL("http://localhost:8080/xmlrpc"));
+//        this.config.setServerURL(new URL("http://cidar.bu.edu/miniEugeneXmlRpc/xmlrpc"));
 
         /*
          * we enable extensions
@@ -111,22 +115,23 @@ public class InvokeEugeneDemo01 {
 		 * here, we invoke the executeEugene/1 method of 
 		 * the miniEugene XML-RPC Web service
 		 */
-		
-        Object solutions = client.execute(
-        		"MiniEugeneXmlRpc.execute", 
+        Object object = client.execute(
+        		"MiniEugeneXmlRpc.executeEugene", 
         		new Object[]{script});
 
-        if(null != solutions) {
-
-        	Object[] objects = (Object[])solutions;
-        	System.out.println(objects.getClass());
+        if(null != object) {
         	
-        	for(Object object : objects) {
+        	if(object instanceof EugeneCollection) {
+        		EugeneCollection results = 
+        				(EugeneCollection)object;
         		
-        		System.out.println("---------------");
-        		System.out.println(object);
+        		EugeneArray result = 
+        				(EugeneArray)results.get("result");
+        		
+        		System.out.println(result.size());
         		
         	}
+        	
         }
 
 	}

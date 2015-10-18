@@ -189,26 +189,32 @@ public class MiniEugeneXmlRpc {
 	}
 	
 	/**
+	 * The executeEugene method parses and interprets a given Eugene script 
+	 * and returns a EugeneCollection that contains all elements 
+	 * that are created within the Eugene script. 
 	 * 
-	 * @param eugeneScript
-	 * @return
+	 * @param eugeneScript  ... the Eugene script to be executed
+	 * 
+	 * @return ... a EugeneCollection object
+	 * 
 	 * @throws Exception
 	 */
-	public Object execute(String eugeneScript) 
+	public EugeneCollection executeEugene(String eugeneScript) 
 			throws Exception {
 		
 		try {
 			
 			EugeneCollection results = 
 					new Eugene().executeScript(eugeneScript);
-			
-			List<Object> collections = 
-					new ArrayList<Object>();
-			for(NamedElement element : results.getElements()) {
-				collections.add(element);
-			}
-			
-			return collections.toArray();
+
+			return results;
+//			List<Object> collections = 
+//					new ArrayList<Object>();
+//			for(NamedElement element : results.getElements()) {
+//				collections.add(element);
+//			}
+//			
+//			return collections.toArray();
 		} catch(Exception e) {
 			throw new Exception(e.getLocalizedMessage());
 		}

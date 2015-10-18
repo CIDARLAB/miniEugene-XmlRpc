@@ -66,8 +66,8 @@ public class SynchronousDemo01 {
         /*
          * we configure the URL of the miniEugene XML-RPC Web service
          */
-//        this.config.setServerURL(new URL("http://cidar.bu.edu/miniEugeneXmlRpc/xmlrpc"));
-        this.config.setServerURL(new URL("http://localhost:8080/xmlrpc"));
+        this.config.setServerURL(new URL("http://cidar.bu.edu/miniEugeneXmlRpc/xmlrpc"));
+//        this.config.setServerURL(new URL("http://localhost:8080/xmlrpc"));
         
 		/*
 		 * then we instantiate the XML-RPC Client
