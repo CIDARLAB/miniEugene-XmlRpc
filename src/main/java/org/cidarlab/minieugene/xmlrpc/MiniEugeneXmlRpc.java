@@ -32,11 +32,9 @@
 
 package org.cidarlab.minieugene.xmlrpc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.cidarlab.eugene.Eugene;
-import org.cidarlab.eugene.dom.NamedElement;
 import org.cidarlab.eugene.dom.imp.container.EugeneCollection;
 import org.cidarlab.minieugene.MiniEugene;
 import org.cidarlab.minieugene.dom.Component;
